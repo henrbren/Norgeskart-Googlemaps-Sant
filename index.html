@@ -20,7 +20,7 @@
            center: {lat: 59.911491, lng: 10.757933},
            zoom: 14,
 	       mapTypeControlOptions: {
-		   mapTypeIds: ['kartdata', 'topografisk', 'graatoner']
+		   mapTypeIds: ['kartdata', 'topografisk', 'graatoner', 'havbunn']
 		   }
         
  });
@@ -33,7 +33,10 @@
 	 map.mapTypes.set('kartdata', new NorgeskartType("Norgeskart", "norgeskart_bakgrunn"));
 		   
 	 map.mapTypes.set('topografisk', new NorgeskartType("Topografisk", "topo4graatone"));
+	 
+	 map.mapTypes.set('havbunn', new NorgeskartType("Havbunn", "havbunn_grunnkart"));
 	       
+	 
 	 map.mapTypes.set('graatoner', new NorgeskartType("Gråtoner", "norges_grunnkart_graatone"));
 		    
 	 map.setMapTypeId('kartdata');
