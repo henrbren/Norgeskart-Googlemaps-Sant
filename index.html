@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Google Maps + Norgeskart = Sant</title>
+</head>
+
+<body>
+	
+ <div id="map" style="height: 600px;"></div>
+	
+</body>
+<script>
+		
+		
+ function initMap() {
+	
+ //Innstillinger for kartet	
+ map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat: 59.911491, lng: 10.757933},
+           zoom: 14,
+	       mapTypeControlOptions: {
+		   mapTypeIds: ['kartdata', 'topografisk', 'graatoner']
+		   }
+        
+ });
+	
+	 ////////////////////////////////////////////////////////////////////////////////////   
+	 //Vi henter forskjellige kart fra serveren. Det finnes flere typer kart. 
+	 //Les mer om tjenestene på https://www.kartverket.no/data/API-er-og-tjenester/
+	 ////////////////////////////////////////////////////////////////////////////////////
+	 
+	 map.mapTypes.set('kartdata', new NorgeskartType("Norgeskart", "norgeskart_bakgrunn"));
+		   
+	 map.mapTypes.set('topografisk', new NorgeskartType("Topografisk", "topo4graatone"));
+	       
+	 map.mapTypes.set('graatoner', new NorgeskartType("Gråtoner", "norges_grunnkart_graatone"));
+		    
+	 map.setMapTypeId('kartdata');
+	
+}	
+	
+	 function NorgeskartType(name, layer) {
+			  this.layer = layer
+			  this.name = name
+			  this.alt = name
+		      //Størrelsen på flisene: 256 
+			  this.tileSize = new google.maps.Size(256,256);
+			  this.maxZoom = 19;
+			  this.getTile = function(coord, zoom, ownerDocument) {
+				    var div = ownerDocument.createElement('DIV');
+				    div.style.width = this.tileSize.width + 'px';
+				    div.style.height = this.tileSize.height + 'px';
+				    //Her henter vi data. Husk HTTPS!
+				    div.style.backgroundImage = "url(https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=" + this.layer + "&zoom=" + zoom + "&x=" + coord.x + "&y=" + coord.y + ")";
+				    return div;
+				  };
+		  }
+  
+
+ </script>	
+ <script src="https://maps.googleapis.com/maps/api/js?key=[DIN API NØKKEL]&libraries=places&callback=initMap"
+        async defer>//Husk å sette in din API-nøkkel for Google Maps.</script>
+
+</html>
